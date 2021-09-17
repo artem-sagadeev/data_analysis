@@ -12,7 +12,6 @@ namespace DataAnalysis.Hw1
         {
             _inputsCount = inputsCount;
             _weights = new double[inputsCount];
-            var random = new Random();
             for (var i = 0; i < inputsCount; i++)
             {
                 _weights[i] = 1;
@@ -33,7 +32,7 @@ namespace DataAnalysis.Hw1
             return sum > 0 ? 1 : -1;
         }
 
-        public void Fit(double[][] input, double[] output)
+        public void Fit(double[][] input, int[] output)
         {
             var errs = -1;
             var minErrs = input.Length;

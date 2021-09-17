@@ -10,7 +10,7 @@ namespace DataAnalysis.Hw1
         static void Main(string[] args)
         {
             var y = File
-                .ReadAllLines("lines.csv")
+                .ReadAllLines("../../../lines.csv")
                 .Select(e => double.Parse(e.Split(";")[7].Replace(".", ",")))
                 .ToList();
             var i = 0;
@@ -27,14 +27,14 @@ namespace DataAnalysis.Hw1
             var a = (xy - newX * newY) / (x2 - newX * newX);
             var b = newY - a * newX;
             Console.WriteLine($"a = {a}, b = {b}");
-            var answers = new List<double>();
+            var answers = new List<int>();
             for (var j = 0; j < x.Count; j++)
             {
                 answers.Add(a * x[j] + b <= y[j] ? 1 : -1);
             }
 
             i = 0;
-            var inputs = y.Select(e => new double[] { i, y[i++] }).ToArray();
+            var inputs = y.Select(e => new [] { i, y[i++] }).ToArray();
             foreach (var e in x)
             {
                 Console.Write(e + " ");
