@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataAnalysis.Hw1
 {
@@ -7,57 +9,62 @@ namespace DataAnalysis.Hw1
     {
         private readonly int _inputsCount;
         private readonly double[] _weights;
+        private readonly double _bias;
+        private readonly double _tempo;
 
-        public SinglePerceptron(int inputsCount, double delta)
+        public SinglePerceptron(int inputsCount, double bias, double tempo)
         {
             _inputsCount = inputsCount;
-            _weights = new double[inputsCount];
-            for (var i = 0; i < inputsCount; i++)
-            {
-                _weights[i] = 1;
-            }
+            _bias = bias;
+            _tempo = tempo;
+
+            var random = new Random();
+            _weights = Enumerable
+                .Range(0, inputsCount)
+                .Select(_ => random.NextDouble())
+                .ToArray();
         }
 
         private int Predict(double[] input)
         {
-            if (input.Length != _inputsCount)
-                throw new ArgumentException();
-
-            var sum = 0d;
+            var sum = _bias;
             for (var i = 0; i < _inputsCount; i++)
-            {
                 sum += _weights[i] * input[i];
-            }
 
             return sum > 0 ? 1 : -1;
         }
 
-        public void Fit(double[][] input, int[] output)
+        public void Fit(double[][] inputs, int[] answers)
         {
-            var errs = -1;
-            var minErrs = input.Length;
-            while (errs != 0)
+            var errorsCount = -1;
+            var minErrorsCount = inputs.Length;
+            while (errorsCount != 0)
             {
-                errs = 0;
-                for (var i = 0; i < input.Length; i++)
+                errorsCount = 0;
+                for (var i = 0; i < inputs.Length; i++)
                 {
-                    var row = input[i];
-                    var prediction = Predict(row);
-                    if (prediction * output[i] < 0)
+                    var input = inputs[i];
+                    if (Predict(input) != answers[i])
                     {
-                        errs += 1;
-                        _weights[0] += 0.001d * row[0] * output[i];
+                        errorsCount += 1;
+                        for (var j = 0; j < _inputsCount; j++)
+                        {
+                            _weights[j] += _tempo * input[j] * answers[i];
+                        }
                     }
                 }
-                var temp = minErrs;
-                minErrs = Math.Min(errs, minErrs);
-                if (temp != minErrs)
+
+                if (errorsCount < minErrorsCount)
                 {
-                    Console.WriteLine(minErrs);
+                    minErrorsCount = errorsCount;
+                    Console.WriteLine();
+                    Console.WriteLine($"Errors count : {minErrorsCount}");
+                    Console.Write("Weights: ");
                     foreach (var weight in _weights)
                     {
                         Console.Write(weight + " ");
                     }
+                    Console.WriteLine();
                 }
             }
         }
