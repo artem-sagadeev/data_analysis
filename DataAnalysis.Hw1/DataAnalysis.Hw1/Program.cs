@@ -11,7 +11,7 @@ namespace DataAnalysis.Hw1
         {
             var y = File
                 .ReadAllLines("../../../lines.csv")
-                .Select(e => double.Parse(e.Split(";")[7]))
+                .Select(e => double.Parse(e.Split(";")[7].Replace('.', ',')))
                 .ToList();
             var x = Enumerable.Range(1, y.Count).ToList();
             
