@@ -5,46 +5,70 @@ namespace DataAnalysis.Hw3
 {
     public class DoublePerceptron
     {
-        private const int InputsCount = 10;
-        private readonly double[] _weights;
+        private readonly int _inputsCount;
         private readonly double _tempo;
+        private readonly int _agesCount;
 
-        public DoublePerceptron(double tempo)
+        private readonly double[,] _weightsXtoH;
+        private readonly double[] _weightsHtoY;
+        
+        public DoublePerceptron(int inputsCount, double tempo, int agesCount)
         {
             _tempo = tempo;
-
+            _inputsCount = inputsCount;
+            _agesCount = agesCount;
+            
             var random = new Random();
-            _weights = Enumerable
-                .Range(0, InputsCount)
-                .Select(_ => random.NextDouble())
-                .ToArray();
+            _weightsXtoH = new double[_inputsCount, _inputsCount];
+            for (var i = 0; i < _inputsCount; i++)
+            for (var j = 0; j < _inputsCount; j++)
+            {
+                _weightsXtoH[i, j] = random.NextDouble();
+            }
+
+            _weightsHtoY = new double[_inputsCount];
+            for (var i = 0; i < _inputsCount; i++)
+            {
+                _weightsHtoY[i] = random.NextDouble();
+            }
         }
 
         private int Predict(double[] input)
         {
-            var sum = 0d;
-            for (var i = 0; i < InputsCount; i++)
-                sum += _weights[i] * input[i];
+            var firstSum = 0d;
+            for (var i = 0; i < _inputsCount; i++)
+            {
+                for (var j = 0; j < _inputsCount; j++)
+                    firstSum += _weightsXtoH[i, j] * input[j];
 
-            return sum > 0 ? 1 : -1;
+                firstSum = firstSum > 0 ? 1 : -1;
+            }
+
+            var secondSum = 0d;
+            for (var i = 0; i < _inputsCount; i++)
+                secondSum += _weightsHtoY[i] * firstSum;
+
+            return secondSum > 0 ? 1 : -1;
         }
 
         public void Fit(double[][] inputs, int[] answers)
         {
             var age = 0;
             var minErrorsCount = int.MaxValue;
-            while (age < 100)
+            while (age < _agesCount)
             {
                 var errorsCount = 0;
-                for (var i = 0; i < inputs.Length; i++)
+                for (var k = 0; k < inputs.Length; k++)
                 {
-                    var input = inputs[i];
-                    if (Predict(input) != answers[i])
+                    var input = inputs[k];
+                    if (Predict(input) != answers[k])
                     {
                         errorsCount++;
-                        for (var j = 0; j < InputsCount; j++)
+                        for (var i = 0; i < _inputsCount; i++)
                         {
-                            _weights[j] += _tempo * input[j] * answers[i];
+                            for (var j = 0; j < _inputsCount; j++)
+                                _weightsXtoH[i, j] += _tempo * input[i] * answers[k];
+                            _weightsHtoY[i] += _tempo * input[i] * answers[k];
                         }
                     }
                 }

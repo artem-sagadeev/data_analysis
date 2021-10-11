@@ -13,14 +13,14 @@ namespace DataAnalysis.Hw3
             var inputs = PrepareInput(data).ToArray();
             var answers = PrepareAnswers(data).ToArray();
             
-            var perceptron = new DoublePerceptron(0.001d);
+            var perceptron = new DoublePerceptron(10, 0.001d, 1000);
             perceptron.Fit(inputs, answers);
         }
 
         static double[] InputData()
             => File
                 .ReadAllLines("../../../lines.csv")
-                .Select(line => line.Split(';')[7].Replace('.', ','))
+                .Select(line => line.Split(';')[7]/*.Replace('.', ',')*/)
                 .Select(double.Parse)
                 .ToArray();
 
