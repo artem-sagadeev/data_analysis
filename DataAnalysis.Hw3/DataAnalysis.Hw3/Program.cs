@@ -9,17 +9,26 @@ namespace DataAnalysis.Hw3
     {
         static void Main(string[] args)
         {
-            var data = InputData();
-            var inputs = PrepareInput(data).ToArray();
-            var answers = PrepareAnswers(data).ToArray();
+            var educationalData = InputData("../../../EducationalData.csv");
+            var educationalInputs = PrepareInput(educationalData).ToArray();
+            var educationalAnswers = PrepareAnswers(educationalData).ToArray();
             
-            var perceptron = new DoublePerceptron(10, 0.001d, 1000);
-            perceptron.Fit(inputs, answers);
+            var testData = InputData("../../../TestData.csv");
+            var testInputs = PrepareInput(testData).ToArray();
+            var testAnswers = PrepareAnswers(testData).ToArray();
+            
+            var perceptron = new DoublePerceptron(10, 0.01d, 10000);
+            perceptron.Study(educationalInputs, educationalAnswers);
+
+            var educationalError = perceptron.Predict(educationalInputs, educationalAnswers);
+            var testError = perceptron.Predict(testInputs, testAnswers);
+            
+            Console.WriteLine($"{educationalError} {testError}");
         }
 
-        static double[] InputData()
+        static double[] InputData(string path)
             => File
-                .ReadAllLines("../../../lines.csv")
+                .ReadAllLines(path)
                 .Select(line => line.Split(';')[7]/*.Replace('.', ',')*/)
                 .Select(double.Parse)
                 .ToArray();
