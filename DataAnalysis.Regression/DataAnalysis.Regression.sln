@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAnalysis.Regression.Block1", "DataAnalysis.Regression.Block1\DataAnalysis.Regression.Block1.csproj", "{F8572EEC-7560-4786-B3ED-F65B74656317}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{E3E688C9-1BC9-4E87-B9CF-660E7B1E3D4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8572EEC-7560-4786-B3ED-F65B74656317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8572EEC-7560-4786-B3ED-F65B74656317}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8572EEC-7560-4786-B3ED-F65B74656317}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8572EEC-7560-4786-B3ED-F65B74656317}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3E688C9-1BC9-4E87-B9CF-660E7B1E3D4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E688C9-1BC9-4E87-B9CF-660E7B1E3D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E688C9-1BC9-4E87-B9CF-660E7B1E3D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E688C9-1BC9-4E87-B9CF-660E7B1E3D4C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
