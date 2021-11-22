@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAnalysis.Regression.Blo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{E3E688C9-1BC9-4E87-B9CF-660E7B1E3D4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAnalysis.Regression.Block2", "DataAnalysis.Regression.Block2\DataAnalysis.Regression.Block2.csproj", "{7321923C-8C5D-4458-BBAC-1E94536D487D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{E3E688C9-1BC9-4E87-B9CF-660E7B1E3D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3E688C9-1BC9-4E87-B9CF-660E7B1E3D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3E688C9-1BC9-4E87-B9CF-660E7B1E3D4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7321923C-8C5D-4458-BBAC-1E94536D487D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7321923C-8C5D-4458-BBAC-1E94536D487D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7321923C-8C5D-4458-BBAC-1E94536D487D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7321923C-8C5D-4458-BBAC-1E94536D487D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -12,14 +12,13 @@ namespace DataAnalysis.Regression.Block1
             var dataSet = InputData("../../../lines.csv");
             var setC = dataSet.GetSetC();
             var setCAverage = setC.Average();
-            
-            
+
             var setT = dataSet.GetSetT();
             var firstCoefficient = CalculateCoefficient(setT, setC);
             var firstFreeMember = CalculateFreeMember(setT, setC, firstCoefficient);
             var firstDeterminationCoefficient =
                 CalculateDeterminationCoefficient(setT, setC, firstCoefficient, firstFreeMember, setCAverage);
-            Console.Write($"1.Formula: {firstCoefficient}x {GetSign(firstFreeMember)} {Math.Abs(firstFreeMember)}");
+            Console.Write($"1.Model: {firstCoefficient} * t {GetSign(firstFreeMember)} {Math.Abs(firstFreeMember)}");
             Console.WriteLine($", Determination coefficient = {firstDeterminationCoefficient}");
             
             var setO = dataSet.GetSetO();
@@ -27,7 +26,7 @@ namespace DataAnalysis.Regression.Block1
             var secondFreeMember = CalculateFreeMember(setO, setC, secondCoefficient);
             var secondDeterminationCoefficient =
                 CalculateDeterminationCoefficient(setO, setC, secondCoefficient, secondFreeMember, setCAverage);
-            Console.Write($"2.Formula: {secondCoefficient}x {GetSign(secondFreeMember)} {Math.Abs(secondFreeMember)}");
+            Console.Write($"2.Model: {secondCoefficient} * o {GetSign(secondFreeMember)} {Math.Abs(secondFreeMember)}");
             Console.WriteLine($", Determination coefficient = {secondDeterminationCoefficient}");
             
             var setL = dataSet.GetSetL();
@@ -35,7 +34,7 @@ namespace DataAnalysis.Regression.Block1
             var thirdFreeMember = CalculateFreeMember(setL, setC, thirdCoefficient);
             var thirdDeterminationCoefficient =
                 CalculateDeterminationCoefficient(setL, setC, thirdCoefficient, thirdFreeMember, setCAverage);
-            Console.Write($"3.Formula: {thirdCoefficient}x {GetSign(thirdFreeMember)} {Math.Abs(thirdFreeMember)}");
+            Console.Write($"3.Model: {thirdCoefficient} * l {GetSign(thirdFreeMember)} {Math.Abs(thirdFreeMember)}");
             Console.WriteLine($", Determination coefficient = {thirdDeterminationCoefficient}");
             
             var setH = dataSet.GetSetH();
@@ -43,7 +42,7 @@ namespace DataAnalysis.Regression.Block1
             var fourthFreeMember = CalculateFreeMember(setH, setC, fourthCoefficient);
             var fourthDeterminationCoefficient =
                 CalculateDeterminationCoefficient(setH, setC, fourthCoefficient, fourthFreeMember, setCAverage);
-            Console.Write($"4.Formula: {fourthCoefficient}x {GetSign(fourthFreeMember)} {Math.Abs(fourthFreeMember)}");
+            Console.Write($"4.Model: {fourthCoefficient} * h {GetSign(fourthFreeMember)} {Math.Abs(fourthFreeMember)}");
             Console.WriteLine($", Determination coefficient = {fourthDeterminationCoefficient}");
         }
 

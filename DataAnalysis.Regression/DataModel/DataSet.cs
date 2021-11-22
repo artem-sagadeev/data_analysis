@@ -5,12 +5,12 @@ namespace DataModel
 {
     public class DataSet
     {
-        private IReadOnlyList<Model> Data { get; }
+        private IReadOnlyList<Data> Data { get; }
 
         public DataSet(string[] lines)
         {
             Data = lines
-                .Select((line, i) => new Model(line, i))
+                .Select((line, i) => new Data(line, i))
                 .ToList();
         }
 

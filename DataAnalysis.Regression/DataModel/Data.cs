@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace DataModel
 {
-    public class Model
+    public class Data
     {
         public double Time { get; }
         public double Open { get; }
@@ -11,7 +11,7 @@ namespace DataModel
         public double Low { get; }
         public double Close { get; }
 
-        public Model(string line, double time)
+        public Data(string line, double time)
         {
             var parsedParts = line
                 .Split(';')
