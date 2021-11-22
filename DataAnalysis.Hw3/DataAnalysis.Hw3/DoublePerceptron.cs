@@ -5,8 +5,6 @@ namespace DataAnalysis.Hw3
 {
     public class DoublePerceptron
     {
-        private const double Delta = int.MinValue;
-        
         private readonly int _inputsCount;
         private readonly double _tempo;
         private readonly int _agesCount;
@@ -109,7 +107,7 @@ namespace DataAnalysis.Hw3
         {
             var predict = 0d;
             for (var i = 0; i < _inputsCount; i++)
-                predict += SigmaFunction(middle[i]) * _weightsSecond[i];
+                predict += middle[i] * _weightsSecond[i];
 
             return SigmaFunction(predict);
         }
