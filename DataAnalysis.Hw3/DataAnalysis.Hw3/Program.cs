@@ -20,8 +20,8 @@ namespace DataAnalysis.Hw3
             var perceptron = new DoublePerceptron(10, 0.01d, 10000);
             perceptron.Study(educationalInputs, educationalAnswers);
 
-            var educationalError = perceptron.Predict(educationalInputs, educationalAnswers);
-            var testError = perceptron.Predict(testInputs, testAnswers);
+            var educationalError = perceptron.CheckError(educationalInputs, educationalAnswers);
+            var testError = perceptron.CheckError(testInputs, testAnswers);
             
             Console.WriteLine($"{educationalError} {testError}");
         }
@@ -41,9 +41,9 @@ namespace DataAnalysis.Hw3
             }
         }
         
-        static IEnumerable<int> PrepareAnswers(this double[] data)
+        static IEnumerable<double> PrepareAnswers(this double[] data)
         {
-            for (var i = 10; i < data.Length; i += 3)
+            for (var i = 10; i < data.Length; i++)
             {
                 yield return GetTrendDirection(
                     data.Skip(i).Take(3).Select((_, x) => x).ToList(),
@@ -51,7 +51,7 @@ namespace DataAnalysis.Hw3
             }
         }
 
-        static int GetTrendDirection(List<int> x, List<double> y)
+        static double GetTrendDirection(List<int> x, List<double> y)
         {
             var xAverage = x.Average();
             var yAverage = y.Average();

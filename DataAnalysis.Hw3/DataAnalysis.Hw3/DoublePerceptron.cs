@@ -33,7 +33,7 @@ namespace DataAnalysis.Hw3
             }
         }
 
-        public double Predict(double[][] inputs, int[] answers)
+        public double CheckError(double[][] inputs, double[] answers)
         {
             var globalError = 0d;
             for (var k = 0; k < inputs.Length; k++)
@@ -48,7 +48,7 @@ namespace DataAnalysis.Hw3
             return globalError;
         }
         
-        public void Study(double[][] inputs, int[] answers)
+        public void Study(double[][] inputs, double[] answers)
         {
             var globalError = 0d;
             var age = 0;
