@@ -11,6 +11,9 @@ namespace DataAnalysis.Hw3
 
         private readonly double[,] _weightsFirst;
         private readonly double[] _weightsSecond;
+
+        private readonly double[] _middle;
+        private readonly double[] _errors;
         
         public DoublePerceptron(int inputsCount, double tempo, int agesCount)
         {
@@ -31,83 +34,93 @@ namespace DataAnalysis.Hw3
             {
                 _weightsSecond[i] = random.NextDouble();
             }
+
+            _middle = new double[inputsCount];
+            _errors = new double[inputsCount];
         }
 
-        public double CheckError(double[][] inputs, double[] answers)
+        public int GetErrorsCount(double[][] inputs, double[] answers)
         {
-            var globalError = 0d;
+            var errorsCount = 0;
             for (var k = 0; k < inputs.Length; k++)
             {
-                var middle = CalculateMiddle(inputs[k]);
-                var predict = CalculatePredict(middle);
-                var mainError = (predict - answers[k]) * predict * (1 - predict);
-                var errors = CalculateErrors(mainError, middle);
-                globalError += mainError + errors.Sum();
+                CalculateMiddle(inputs[k]);
+                var predict = CalculatePredict();
+                if (IsPredictWrong(predict, answers[k]))
+                    errorsCount++;
             }
 
-            return globalError;
+            return errorsCount;
         }
         
         public void Study(double[][] inputs, double[] answers)
         {
-            var globalError = 0d;
+            var minErrorsCount = int.MaxValue;
             var age = 0;
-            do
+            
+            while (minErrorsCount > 0 && age < _agesCount)
             {
                 age++;
-                globalError = 0d;
-                
+                var errorsCount = 0;
+
                 for (var k = 0; k < inputs.Length; k++)
                 {
                     var input = inputs[k];
                     var answer = answers[k];
-                    var middle = CalculateMiddle(input);
-                    var predict = CalculatePredict(middle);
-                    
-                    var mainError = (predict - answer) * predict * (1 - predict);
-                    var errors = CalculateErrors(mainError, middle);
+                    CalculateMiddle(input);
+                    var predict = CalculatePredict();
 
-                    for (var i = 0; i < _inputsCount; i++)
-                    for (var j = 0; j < _inputsCount; j++)
+                    if (IsPredictWrong(predict, answer))
                     {
-                        _weightsFirst[i, j] -= _tempo * errors[j] * input[i];
+                        errorsCount++;
+                        
+                        var mainError = (predict - answer) * predict * (1 - predict);
+                        CalculateErrors(mainError);
+
+                        for (var i = 0; i < _inputsCount; i++)
+                        for (var j = 0; j < _inputsCount; j++)
+                        {
+                            _weightsFirst[i, j] -= _tempo * _errors[j] * input[i];
+                        }
+
+                        for (var i = 0; i < _inputsCount; i++)
+                            _weightsSecond[i] -= _tempo * mainError * _middle[i];
                     }
-
-                    for (var i = 0; i < _inputsCount; i++)
-                        _weightsSecond[i] -= _tempo * mainError * middle[i];
-
-                    globalError += mainError + errors.Sum();
                 }
-            } while (globalError != 0d && age < _agesCount);
+
+                if (errorsCount < minErrorsCount)
+                {
+                    minErrorsCount = errorsCount;
+                    Console.WriteLine($"Age: {age}, errors count {errorsCount}");
+                }
+            }
         }
 
-        private double[] CalculateErrors(double mainError, double[] middle)
+        private bool IsPredictWrong(double predict, double answer)
+            => predict > 0.5 && answer < 0.5 ||
+               predict < 0.5 && answer > 0.5;
+        
+        private void CalculateErrors(double mainError)
         {
-            var errors = new double[_inputsCount];
             for (var i = 0; i < _inputsCount; i++)
-                errors[i] = mainError * _weightsSecond[i] * middle[i] * (1 - middle[i]);
-
-            return errors;
+                _errors[i] = mainError * _weightsSecond[i] * _middle[i] * (1 - _middle[i]);
         }
         
-        private double[] CalculateMiddle(double[] input)
+        private void CalculateMiddle(double[] input)
         {
-            var middle = new double[_inputsCount];
             for (var i = 0; i < _inputsCount; i++)
             for (var j = 0; j < _inputsCount; j++)
-                middle[j] += input[i] * _weightsFirst[i, j];
+                _middle[j] += input[i] * _weightsFirst[i, j];
 
             for (var i = 0; i < _inputsCount; i++)
-                middle[i] = SigmaFunction(middle[i]);
-
-            return middle;
+                _middle[i] = SigmaFunction(_middle[i]);
         }
 
-        private double CalculatePredict(double[] middle)
+        private double CalculatePredict()
         {
             var predict = 0d;
             for (var i = 0; i < _inputsCount; i++)
-                predict += middle[i] * _weightsSecond[i];
+                predict += _middle[i] * _weightsSecond[i];
 
             return SigmaFunction(predict);
         }

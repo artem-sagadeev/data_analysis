@@ -17,25 +17,24 @@ namespace DataAnalysis.Hw3
             var testInputs = PrepareInput(testData).ToArray();
             var testAnswers = PrepareAnswers(testData).ToArray();
             
-            var perceptron = new DoublePerceptron(10, 0.01d, 10000);
+            var perceptron = new DoublePerceptron(10, 0.0001d, 5000);
             perceptron.Study(educationalInputs, educationalAnswers);
-
-            var educationalError = perceptron.CheckError(educationalInputs, educationalAnswers);
-            var testError = perceptron.CheckError(testInputs, testAnswers);
             
-            Console.WriteLine($"{educationalError} {testError}");
+            var testError = perceptron.GetErrorsCount(testInputs, testAnswers);
+            
+            Console.WriteLine($"Errors count on test dataset: {testError}");
         }
 
         static double[] InputData(string path)
             => File
                 .ReadAllLines(path)
-                .Select(line => line.Split(';')[7]/*.Replace('.', ',')*/)
+                .Select(line => line.Split(';')[7])
                 .Select(double.Parse)
                 .ToArray();
 
         static IEnumerable<double[]> PrepareInput(double[] data)
         {
-            for (var i = 0; i < data.Length; i += 10)
+            for (var i = 0; i < data.Length - 13; i++)
             {
                 yield return data.Skip(i).Take(10).ToArray();
             }
@@ -43,7 +42,7 @@ namespace DataAnalysis.Hw3
         
         static IEnumerable<double> PrepareAnswers(this double[] data)
         {
-            for (var i = 10; i < data.Length; i++)
+            for (var i = 10; i < data.Length - 3; i++)
             {
                 yield return GetTrendDirection(
                     data.Skip(i).Take(3).Select((_, x) => x).ToList(),
@@ -57,7 +56,7 @@ namespace DataAnalysis.Hw3
             var yAverage = y.Average();
             var xyAverage = y.Select((t, i) => x[i] * t).Sum() / y.Count;
             var x2 = x.Select(e => e * e).Sum() / x.Count;
-            return (xyAverage - xAverage * yAverage) / (x2 - xAverage * xAverage) > 0 ? 1 : -1;
+            return (xyAverage - xAverage * yAverage) / (x2 - xAverage * xAverage) > 0 ? 1 : 0;
         }
     }
 }
